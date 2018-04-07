@@ -48,12 +48,11 @@ def run_student(use_timer):
 def run_view():
 	os.system("cd student; ./ced " + view_args)
 
+def check_correctness():
+	os.system("./check-correctness")
 
 if __name__ == '__main__':
 	if len(sys.argv) != 2:
 		print ("Wrong input number. Need exactly 1 input")
 		sys.exit(1)
 	main(sys.argv[1])
-
-def check_correctness():
-	os.system("./check-correctness")
