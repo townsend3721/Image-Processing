@@ -27,7 +27,7 @@ clean-correctness:
 	rm check-correctness;
 
 batch:
-	make clean; make build; ./run-test.py batch;
+	make clean; make build; make build-correctness; ./run-test.py batch; make clean-correctness;
 
 view:
 	make clean-student; make build-student; ./run-test.py view;
