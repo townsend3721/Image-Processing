@@ -17,9 +17,10 @@ def main(mode):
 		run_naive(True)
 		run_student(True)
 		print ("Speedup by {} times".format(naive_time / student_time))
+		check_correctness()
 	elif mode == 'correctness':
 		run_student(False)
-		os.system("./check-correctness")
+		check_correctness()
 	else:
 		print ("Unknown mode specified to run")
 
@@ -54,3 +55,5 @@ if __name__ == '__main__':
 		sys.exit(1)
 	main(sys.argv[1])
 
+def check_correctness():
+	os.system("./check-correctness")
