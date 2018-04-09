@@ -1,3 +1,10 @@
+ifndef VERBOSE
+VERBOSE = false
+endif
+ifeq ($(VERBOSE), false)
+.SILENT:
+endif
+
 Complier = gcc
 Flags = -g -std=c99 -fopenmp -o
 Libraries = -lm -lpng
