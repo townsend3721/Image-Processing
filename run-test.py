@@ -14,8 +14,8 @@ def main(mode):
 	if mode == 'view':
 		run_view()
 	elif mode == 'batch':
-		run_naive(True)
 		run_student(True)
+		run_naive(True)
 		print ("Speedup by {} times".format(naive_time / student_time))
 		check_correctness()
 	elif mode == 'correctness':
