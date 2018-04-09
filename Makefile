@@ -34,13 +34,13 @@ clean-correctness:
 	rm check-correctness;
 
 batch:
-	make clean; make build; make build-correctness; ./run-test.py batch; make clean-correctness;
+	echo "Batch testing your project..."; make clean; make build; make build-correctness; ./run-test.py batch; make clean-correctness;
 
 view:
-	make clean-student; make build-student; ./run-test.py view;
+	echo "Viewing..."; make clean-student; make build-student; ./run-test.py view;
 
 correctness:
-	make clean-student; make build-student; make build-correctness; ./run-test.py correctness; make clean-correctness;
+	echo "Testing the correctness of your project..."; make clean-student; make build-student; make build-correctness; ./run-test.py correctness; make clean-correctness;
 
 valgrind:
 	make clean-student; make build-student; cd student; valgrind --leak-check=yes ./ced  ../input/valve.png ../input/weaver.png ../input/bigbrain.png
