@@ -45,4 +45,8 @@ correctness:
 valgrind:
 	make clean-student; make build-student; cd student; valgrind --leak-check=yes ./ced  ../input/valve.png ../input/weaver.png ../input/bigbrain.png
 
+cpu:
+	chmod u+x cpu_usage.sh
+	./cpu_usage.sh;
+
 .PHONY: build build-student build-naive build-correctness clean clean-student clean-naive clean-correctness batch view correctness valgrind
