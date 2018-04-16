@@ -203,6 +203,7 @@ void gaussian_filter(png_bytep *input, png_bytep *output, const unsigned width, 
 	}
 	const float k = (n - 1) / 2.0;
 	float kernel[n * n];
+	#pragma omp parallel for
 	for (unsigned j = 0; j < n; j++) {
 		for (unsigned i = 0; i < n; i++) {
 			kernel[j + i*n] = exp(-0.5 * ((pow((i - (k + 1)), 2.0) + pow((j - (k + 1)), 2.0)) / (sigma * sigma))) / (2 * M_PI * sigma * sigma);
@@ -273,6 +274,7 @@ void intensity_gradients(png_bytep *output, png_bytep *Gx_applied, png_bytep *Gy
 	float Gy[] = {-1, -2, -1, 0, 0, 0, 1, 2, 1};
 	convolution(output, Gx_applied, Gx, width, height, 3, false);
 	convolution(output, Gy_applied, Gx, width, height, 3, false);
+	#pragma omp parallel for
 	for (int i = 1; i < width - 1; i++) {
 		for (int j = 1; j < height - 1; j++) {
 			int c = i + width * j;
@@ -289,6 +291,7 @@ void intensity_gradients(png_bytep *output, png_bytep *Gx_applied, png_bytep *Gy
     dir) it is a local maximum. If it is the value remains on, otherwise it is turned off.
 */
 void non_maximum_suppression(png_bytep *nms, float *G, float *dir, const unsigned width, const unsigned height) {
+	#pragma omp parallel for
 	for (int i = 1; i < width - 1; i++) {
 		for (int j = 1; j < height - 1; j++) {
 			int c = i + width * j;
