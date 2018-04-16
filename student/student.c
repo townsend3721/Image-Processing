@@ -326,13 +326,13 @@ void non_maximum_suppression(png_bytep *nms, float *G, float *dir, const unsigne
 */
 void hysteresis(png_bytep *out, png_bytep *nms, const unsigned width, const unsigned height, const unsigned tmax, const unsigned tmin) {
 	int *edges = calloc(sizeof(int), width * height);
-
+	#pragma omp parallel for
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
 			out[j][i] = 0;
 		}
 	}
-    
+    #pragma omp parallel for
 	for (int j = 1; j < height - 1; j++) {
 		for (int i = 1; i < width - 1; i++) {
 			int c = i + width * j;
