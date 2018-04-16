@@ -394,7 +394,6 @@ void allocate_read_mem(png_structp png_read_ptr, png_bytep *row_pointers, unsign
     rows presented to be written must be a png_bytep *. Also note a png_bytep is an unsigned char *
 */
 void allocate_write_mem(png_structp png_write_ptr, png_bytep *rows1, png_bytep *rows2, png_bytep *rows3, png_bytep *rows4, png_bytep *rows5, unsigned height, unsigned width) {
-	#pragma omp parallel for
 	for (unsigned row = 0; row < height; row++) {
 		rows1[row] = png_malloc(png_write_ptr, width);
 		rows2[row] = png_malloc(png_write_ptr, width);
