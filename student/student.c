@@ -336,10 +336,8 @@ void hysteresis(png_bytep *out, png_bytep *nms, const unsigned width, const unsi
 	for (int j = 1; j < height - 1; j++) {
 		for (int i = 1; i < width - 1; i++) {
 			int c = i + width * j;
-			int cow = c/width;
-			int irw = i % width;
-			if (nms[cow][irw] >= tmax && out[cow][irw] == 0) {
-				out[cow][irw] = MAX_BRIGHTNESS;
+			if (nms[c / width][i % width] >= tmax && out[c / width][c % width] == 0) {
+				out[c / width][i % width] = MAX_BRIGHTNESS;
 				int nedges = 1;
 				edges[0] = c;
 				do {
@@ -379,10 +377,7 @@ void hysteresis(png_bytep *out, png_bytep *nms, const unsigned width, const unsi
     Also note a png_bytep is an unsigned char *
 */
 void allocate_read_mem(png_structp png_read_ptr, png_bytep *row_pointers, unsigned height, unsigned width) {
-	for (unsigned row = 0; row < height; row++) {
-		row_pointers[row] = NULL;
-	}
-
+	
 	for (unsigned row = 0; row < height; row++) {
 		row_pointers[row] = png_malloc(png_read_ptr, width);
 		for (int j = 0; j < width; j++) {
@@ -399,13 +394,7 @@ void allocate_read_mem(png_structp png_read_ptr, png_bytep *row_pointers, unsign
     rows presented to be written must be a png_bytep *. Also note a png_bytep is an unsigned char *
 */
 void allocate_write_mem(png_structp png_write_ptr, png_bytep *rows1, png_bytep *rows2, png_bytep *rows3, png_bytep *rows4, png_bytep *rows5, unsigned height, unsigned width) {
-	for (unsigned row = 0; row < height; row++) {
-		rows1[row] = NULL;
-		rows2[row] = NULL;
-		rows3[row] = NULL;
-		rows4[row] = NULL;
-		rows5[row] = NULL;
-	}
+	#pragma omp parallel for
 	for (unsigned row = 0; row < height; row++) {
 		rows1[row] = png_malloc(png_write_ptr, width);
 		rows2[row] = png_malloc(png_write_ptr, width);
@@ -428,6 +417,7 @@ void allocate_write_mem(png_structp png_write_ptr, png_bytep *rows1, png_bytep *
     be used as opposed to the traditional free.
 */
 void cleanup_rows(png_structp png_write_ptr, png_bytep *rows1, png_bytep *rows2, png_bytep *rows3, png_bytep *rows4, png_bytep *rows5, png_structp png_read_ptr, png_bytep *readrows, unsigned height) {
+	#pragma omp parallel for
 	for (unsigned row = 0; row < height; row++) {
 		png_free(png_write_ptr, rows1[row]);
 		png_free(png_write_ptr, rows2[row]);
