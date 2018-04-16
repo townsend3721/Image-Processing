@@ -231,7 +231,7 @@ void convolution(png_bytep *input, png_bytep *output, float *kernel, const unsig
             			size_t c = 0;
             			for (int i = -half; i <= half; i++) {
                 			for (int j = -half; j <= half; j++) {
-                	    			pixel += input[((n - j) * width + m - i) / width][((n - j) * width + m - i) % width] * kernel[c];
+                	    			pixel += input[n - j][m - i] * kernel[c];
                 	    			c++;
                 			}
             			}
@@ -251,7 +251,7 @@ void convolution(png_bytep *input, png_bytep *output, float *kernel, const unsig
 			size_t c = 0;
 			for (int i = -half; i <= half; i++) {
 				for (int j = -half; j <= half; j++) {
-					pixel += input[((n - j) * width + m - i) / width][((n - j) * width + m - i) % width] * kernel[c];
+					pixel += input[n - j][m - i] * kernel[c];
 					c++;
 				}
 			}
