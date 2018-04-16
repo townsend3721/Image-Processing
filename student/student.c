@@ -336,8 +336,10 @@ void hysteresis(png_bytep *out, png_bytep *nms, const unsigned width, const unsi
 	for (int j = 1; j < height - 1; j++) {
 		for (int i = 1; i < width - 1; i++) {
 			int c = i + width * j;
-			if (nms[c / width][c % width] >= tmax && out[c / width][c % width] == 0) {
-				out[c / width][c % width] = MAX_BRIGHTNESS;
+			int cow = c/width;
+			int irw = i % width;
+			if (nms[cow][irw] >= tmax && out[cow][irw] == 0) {
+				out[cow][irw] = MAX_BRIGHTNESS;
 				int nedges = 1;
 				edges[0] = c;
 				do {
